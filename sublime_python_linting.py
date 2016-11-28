@@ -60,6 +60,11 @@ ORIGINAL_MARK_THEME = {
 }
 
 
+UNDERLINE_FLAGS = (
+    sublime.DRAW_NO_FILL | sublime.DRAW_NO_OUTLINE |
+    sublime.DRAW_EMPTY_AS_OVERWRITE)
+
+
 def check(view=None):
     """Perform a linter check on the view
     """
@@ -155,7 +160,15 @@ def _update_lint_marks(view, lines):
     """
 
     style = get_setting('python_linter_mark_style', view, 'outline')
-    outline_style = {'none': sublime.HIDDEN}
+    outline_style = {
+        'none': sublime.HIDDEN,
+        'fill': sublime.DRAW_NO_OUTLINE,
+        'solid underline': sublime.DRAW_SOLID_UNDERLINE | UNDERLINE_FLAGS,
+        'squiggly underline': (
+            sublime.DRAW_SQUIGGLY_UNDERLINE | UNDERLINE_FLAGS),
+        'stippled underline': (
+            sublime.DRAW_STIPPLED_UNDERLINE | UNDERLINE_FLAGS),
+    }
 
     _erase_lint_marks(view)
 
